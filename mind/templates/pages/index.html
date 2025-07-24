@@ -1,0 +1,213 @@
+{%load static%}
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindScape - Assistente TDAH</title>
+    <link rel="satatic stylesheet" href="{% static 'mind/css/style.css'%}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <button id="menu-toggle" class="menu-toggle">
+                <i class="fas fa-bars" id="menu-icon"></i>
+            </button>
+            
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>MindScape</h1>
+            </div>
+            
+            <div class="spacer"></div>
+        </header>
+
+        <div class="main-container">
+            <!-- Sidebar Menu -->
+            <aside id="sidebar" class="sidebar">
+                <!-- Menu Header -->
+                <div class="sidebar-header">
+                    <div class="user-avatar">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="user-info">
+                        <h2>MindScape</h2>
+                        <p>Seu assistente TDAH</p>
+                    </div>
+                </div>
+
+                <!-- Menu Items -->
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>Início</span>
+                        <div class="active-indicator"></div>
+                    </a>
+                    <a href="#" class="nav-item" data-page="tasks">
+                        <i class="fas fa-check-square"></i>
+                        <span>Minhas Tarefas</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="reminders">
+                        <i class="fas fa-bell"></i>
+                        <span>Lembretes</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="timer">
+                        <i class="fas fa-clock"></i>
+                        <span>Cronômetro</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="focus">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Exercícios de Foco</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="techniques">
+                        <i class="fas fa-brain"></i>
+                        <span>Técnicas TDAH</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <div class="user-card">
+                        <div class="user-avatar-small">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <p class="user-name">Maria Silva</p>
+                            <p class="user-level">Nível: Focado 🎯</p>
+                        </div>
+                    </div>
+                    
+                    <button class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Overlay for mobile -->
+            <div id="overlay" class="overlay"></div>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="content-container">
+                    <!-- Home Page -->
+                    <div id="home-page" class="page active">
+                        <!-- Welcome Card -->
+                        <div class="welcome-card">
+                            <div class="welcome-header">
+                                <div class="welcome-icon">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="welcome-text">
+                                    <h3>Bem-vinda de volta, Maria!</h3>
+                                    <p>Pronta para mais um dia produtivo?</p>
+                                </div>
+                            </div>
+
+                            <!-- Quick Stats -->
+                            <div class="stats-grid">
+                                <div class="stat-card blue">
+                                    <i class="fas fa-check-square"></i>
+                                    <div class="stat-info">
+                                        <p class="stat-number">8</p>
+                                        <p class="stat-label">Tarefas concluídas hoje</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-card gold">
+                                    <i class="fas fa-clock"></i>
+                                    <div class="stat-info">
+                                        <p class="stat-number">2h 15m</p>
+                                        <p class="stat-label">Tempo focado hoje</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-card green">
+                                    <i class="fas fa-bullseye"></i>
+                                    <div class="stat-info">
+                                        <p class="stat-number">7</p>
+                                        <p class="stat-label">Dias consecutivos</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <h4>Ações Rápidas</h4>
+                                <div class="actions-grid">
+                                    <button class="action-btn blue" data-action="pomodoro">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Pomodoro</span>
+                                    </button>
+                                    <button class="action-btn gold" data-action="new-task">
+                                        <i class="fas fa-check-square"></i>
+                                        <span>Nova Tarefa</span>
+                                    </button>
+                                    <button class="action-btn purple" data-action="exercise">
+                                        <i class="fas fa-brain"></i>
+                                        <span>Exercício</span>
+                                    </button>
+                                    <button class="action-btn green" data-action="reminder">
+                                        <i class="fas fa-bell"></i>
+                                        <span>Lembrete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Outras páginas (placeholder) -->
+                    <div id="tasks-page" class="page">
+                        <h2>Minhas Tarefas</h2>
+                        <p>Aqui você pode gerenciar suas tarefas diárias.</p>
+                    </div>
+
+                    <div id="reminders-page" class="page">
+                        <h2>Lembretes</h2>
+                        <p>Configure seus lembretes importantes.</p>
+                    </div>
+
+                    <div id="timer-page" class="page">
+                        <h2>Cronômetro</h2>
+                        <p>Use técnicas de tempo como Pomodoro.</p>
+                    </div>
+
+                    <div id="focus-page" class="page">
+                        <h2>Exercícios de Foco</h2>
+                        <p>Pratique exercícios para melhorar sua concentração.</p>
+                    </div>
+
+                    <div id="techniques-page" class="page">
+                        <h2>Técnicas TDAH</h2>
+                        <p>Aprenda técnicas específicas para TDAH.</p>
+                    </div>
+
+                    <div id="profile-page" class="page">
+                        <h2>Perfil</h2>
+                        <p>Gerencie suas informações pessoais.</p>
+                    </div>
+
+                    <div id="settings-page" class="page">
+                        <h2>Configurações</h2>
+                        <p>Personalize o app conforme suas necessidades.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

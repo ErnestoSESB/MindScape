@@ -1,0 +1,186 @@
+AQUI ESTA ESCRITO O JS
+
+// Elementos DOM
+const menuToggle = document.getElementById('menu-toggle');
+const menuIcon = document.getElementById('menu-icon');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const navItems = document.querySelectorAll('.nav-item');
+const pages = document.querySelectorAll('.page');
+const actionBtns = document.querySelectorAll('.action-btn');
+const logoutBtn = document.querySelector('.logout-btn');
+
+// Estado do menu
+let isMenuOpen = false;
+
+// Função para alternar menu
+function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    
+    if (isMenuOpen) {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+        menuIcon.className = 'fas fa-times';
+    } else {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        menuIcon.className = 'fas fa-bars';
+    }
+}
+
+// Função para fechar menu
+function closeMenu() {
+    if (isMenuOpen) {
+        isMenuOpen = false;
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        menuIcon.className = 'fas fa-bars';
+    }
+}
+
+// Função para navegar entre páginas
+function navigateToPage(pageId) {
+    // Remove active de todas as páginas
+    pages.forEach(page => page.classList.remove('active'));
+    
+    // Remove active de todos os nav items
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Ativa a página selecionada
+    const targetPage = document.getElementById(pageId + '-page');
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Ativa o nav item correspondente
+    const targetNavItem = document.querySelector(`[data-page="${pageId}"]`);
+    if (targetNavItem) {
+        targetNavItem.classList.add('active');
+    }
+    
+    // Fecha o menu em mobile
+    if (window.innerWidth < 1024) {
+        closeMenu();
+    }
+}
+
+// Função para executar ações rápidas
+function executeAction(action) {
+    switch(action) {
+        case 'pomodoro':
+            alert('Iniciando sessão Pomodoro! 🍅');
+            // Aqui você pode integrar com Django
+            break;
+        case 'new-task':
+            alert('Criando nova tarefa! ✅');
+            // Aqui você pode abrir um modal ou redirecionar
+            break;
+        case 'exercise':
+            alert('Iniciando exercício de foco! 🧠');
+            // Aqui você pode navegar para exercícios
+            break;
+        case 'reminder':
+            alert('Criando novo lembrete! 🔔');
+            // Aqui você pode abrir formulário de lembrete
+            break;
+        default:
+            console.log('Ação não reconhecida:', action);
+    }
+}
+
+// Event Listeners
+menuToggle.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', closeMenu);
+
+// Navegação do menu
+navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pageId = item.getAttribute('data-page');
+        navigateToPage(pageId);
+    });
+});
+
+// Ações rápidas
+actionBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const action = btn.getAttribute('data-action');
+        executeAction(action);
+    });
+});
+
+// Logout
+logoutBtn.addEventListener('click', () => {
+    if (confirm('Tem certeza que deseja sair?')) {
+        alert('Logout realizado! Até logo! 👋');
+        // Aqui você pode redirecionar para a página de login do Django
+        // window.location.href = '/logout/';
+    }
+});
+
+// Fechar menu ao redimensionar para desktop
+window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) {
+        closeMenu();
+    }
+});
+
+// Navegação por teclado (acessibilidade)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+        closeMenu();
+    }
+});
+
+// Função para atualizar estatísticas (exemplo para integração com Django)
+function updateStats(data) {
+    // Esta função pode ser chamada quando você receber dados do Django
+    const statsElements = {
+        tasks: document.querySelector('.stat-card.blue .stat-number'),
+        time: document.querySelector('.stat-card.gold .stat-number'),
+        streak: document.querySelector('.stat-card.green .stat-number')
+    };
+    
+    if (data.tasks_completed !== undefined) {
+        statsElements.tasks.textContent = data.tasks_completed;
+    }
+    
+    if (data.focus_time !== undefined) {
+        statsElements.time.textContent = data.focus_time;
+    }
+    
+    if (data.streak_days !== undefined) {
+        statsElements.streak.textContent = data.streak_days;
+    }
+}
+
+// Função para fazer requisições AJAX para Django (exemplo)
+async function fetchUserData() {
+    try {
+        // Exemplo de como fazer requisição para Django
+        // const response = await fetch('/api/user-stats/');
+        // const data = await response.json();
+        // updateStats(data);
+        
+        console.log('Função para buscar dados do usuário');
+    } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+    }
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('FocusApp carregado com sucesso! 🚀');
+    
+    // Aqui você pode fazer a primeira requisição para buscar dados
+    // fetchUserData();
+});
+
+// Exportar funções para uso global (se necessário)
+window.FocusApp = {
+    navigateToPage,
+    updateStats,
+    fetchUserData,
+    toggleMenu,
+    closeMenu
+};
