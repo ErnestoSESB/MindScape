@@ -47,7 +47,7 @@
                         <span>Início</span>
                         <div class="active-indicator"></div>
                     </a>
-                    <a href="#" class="nav-item" data-page="tasks">
+                    <a href="/tasks/" class="nav-item" data-page="tasks">
                         <i class="fas fa-check-square"></i>
                         <span>Minhas Tarefas</span>
                     </a>
@@ -67,14 +67,6 @@
                         <i class="fas fa-brain"></i>
                         <span>Técnicas TDAH</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="profile">
-                        <i class="fas fa-user"></i>
-                        <span>Perfil</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="settings">
-                        <i class="fas fa-cog"></i>
-                        <span>Configurações</span>
-                    </a>
                 </nav>
 
                 <!-- User Section -->
@@ -84,15 +76,15 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="user-details">
-                            <p class="user-name">Maria Silva</p>
+                            <p class="user-name">{{ user.name }}</p>
                             <p class="user-level">Nível: Focado 🎯</p>
                         </div>
                     </div>
                     
-                    <button class="logout-btn">
+                    <a href="/logout/" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Sair</span>
-                    </button>
+                    </a>
                 </div>
             </aside>
 
@@ -111,7 +103,7 @@
                                     <i class="fas fa-bullseye"></i>
                                 </div>
                                 <div class="welcome-text">
-                                    <h3>Bem-vinda de volta, Maria!</h3>
+                                    <h3>Bem-vinda de volta, {{user.name}}!</h3>
                                     <p>Pronta para mais um dia produtivo?</p>
                                 </div>
                             </div>
@@ -164,7 +156,7 @@
                                         <span>Lembrete</span>
                                     </button>
                                 </div>
-                            </div>
+                            </div>m   
                         </div>
                     </div>
 
@@ -194,20 +186,11 @@
                         <p>Aprenda técnicas específicas para TDAH.</p>
                     </div>
 
-                    <div id="profile-page" class="page">
-                        <h2>Perfil</h2>
-                        <p>Gerencie suas informações pessoais.</p>
-                    </div>
-
-                    <div id="settings-page" class="page">
-                        <h2>Configurações</h2>
-                        <p>Personalize o app conforme suas necessidades.</p>
-                    </div>
                 </div>
             </main>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{% static 'mind/js/login-script.js' %}"></script>
 </body>
 </html>

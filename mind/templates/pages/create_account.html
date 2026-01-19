@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MindScape - Criar Conta</title>
+	<link rel="stylesheet" href="{% static 'mind/css/stylelogin.css' %}">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="login-container" style="max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;">
+		<!-- Background Elements -->
+		<div class="background-shapes">
+			<div class="shape shape-1"></div>
+			<div class="shape shape-2"></div>
+			<div class="shape shape-3"></div>
+		</div>
+
+		<!-- Create Account Card -->
+		<div class="login-card">
+			<!-- Logo Section -->
+			<div class="logo-section">
+				<div class="logo-icon">
+					<i class="fas fa-brain"></i>
+				</div>
+				<h1 class="logo-text">MindScape</h1>
+				<p class="logo-subtitle">Seu assistente para TDAH</p>
+			</div>
+
+			<!-- Welcome Message -->
+			<div class="welcome-section">
+				<h2 class="welcome-title">Criar Conta</h2>
+				<p class="welcome-message">
+					Preencha os campos obrigatórios para criar sua conta e acessar todas as funcionalidades do MindScape.
+				</p>
+			</div>
+
+			<!-- Create Account Form -->
+			<form class="login-form" id="createAccountForm" method="post" action="">
+				{% csrf_token %}
+				{% if form.errors %}
+					<div class="form-errors">
+						{% for field in form %}
+							{% for error in field.errors %}
+								<p class="error">{{ error }}</p>
+							{% endfor %}
+						{% endfor %}
+						{% for error in form.non_field_errors %}
+							<p class="error">{{ error }}</p>
+						{% endfor %}
+					</div>
+				{% endif %}
+				<div class="form-group">
+					<label for="id_name" class="form-label">
+						<i class="fas fa-user"></i>
+						Nome completo
+					</label>
+					<input type="text" name="name" id="id_name" class="form-input" placeholder="Seu nome" required maxlength="30">
+				</div>
+				<div class="form-group">
+					<label for="id_email" class="form-label">
+						<i class="fas fa-envelope"></i>
+						Email
+					</label>
+					<input type="email" name="email" id="id_email" class="form-input" placeholder="seu@email.com" required>
+				</div>
+				<div class="form-group">
+					<label for="id_age" class="form-label">
+						<i class="fas fa-birthday-cake"></i>
+						Idade
+					</label>
+					<input type="number" name="age" id="id_age" class="form-input" placeholder="Sua idade" min="1" max="99" required>
+				</div>
+				<div class="form-group">
+					<label for="id_password1" class="form-label">
+						<i class="fas fa-lock"></i>
+						Senha
+					</label>
+					<div class="password-input-container">
+						<input type="password" name="password1" id="id_password1" class="form-input" placeholder="••••••••" required minlength="8" autocomplete="new-password">
+						<button type="button" class="password-toggle" onclick="togglePassword('id_password1')">
+							<i class="fas fa-eye"></i>
+						</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_password2" class="form-label">
+						<i class="fas fa-lock"></i>
+						Confirme a senha
+					</label>
+					<div class="password-input-container">
+						<input type="password" name="password2" id="id_password2" class="form-input" placeholder="Confirme a senha" required minlength="8" autocomplete="new-password">
+						<button type="button" class="password-toggle" onclick="togglePassword('id_password2')">
+							<i class="fas fa-eye"></i>
+						</button>
+					</div>
+				</div>
+				<button type="submit" class="login-btn" style="margin-top:1.2rem;">
+					<i class="fas fa-user-plus"></i>
+					Criar Conta
+				</button>
+			</form>
+
+			<div class="signup-section">
+				<p>Já tem uma conta? <a href="/login/" class="signup-link">Entrar</a></p>
+			</div>
+		</div>
+
+		<footer class="login-footer">
+			<p>&copy; 2024 MindScape. Desenvolvido com ❤️ para pessoas com TDAH.</p>
+			<div class="footer-links">
+				<a href="#">Privacidade</a>
+				<a href="#">Termos</a>
+				<a href="#">Suporte</a>
+			</div>
+		</footer>
+	</div>
+
+	<script>
+	function togglePassword(id) {
+		var input = document.getElementById(id);
+		if (input.type === "password") {
+			input.type = "text";
+		} else {
+			input.type = "password";
+		}
+	}
+	</script>
+</body>
+</html>

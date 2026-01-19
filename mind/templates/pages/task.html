@@ -1,0 +1,191 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MindScape - Minhas Tarefas</title>
+	<link rel="stylesheet" href="{% static 'mind/css/style.css' %}">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="app">
+		<!-- Header -->
+		<header class="header">
+			<button id="menu-toggle" class="menu-toggle">
+				<i class="fas fa-bars" id="menu-icon"></i>
+			</button>
+			<div class="logo">
+				<i class="fas fa-brain"></i>
+				<h1>MindScape</h1>
+			</div>
+			<div class="spacer"></div>
+		</header>
+
+		<div class="main-container">
+			<!-- Sidebar Menu -->
+			<aside id="sidebar" class="sidebar">
+				<div class="sidebar-header">
+					<div class="user-avatar">
+						<i class="fas fa-brain"></i>
+					</div>
+					<div class="user-info">
+						<h2>MindScape</h2>
+						<p>Seu assistente TDAH</p>
+					</div>
+				</div>
+				<nav class="sidebar-nav">
+					<a href="/menu/" class="nav-item" data-page="home">
+						<i class="fas fa-home"></i>
+						<span>Início</span>
+					</a>
+					<a href="/tasks/" class="nav-item active" data-page="tasks">
+						<i class="fas fa-check-square"></i>
+						<span>Minhas Tarefas</span>
+						<div class="active-indicator"></div>
+					</a>
+					<a href="#" class="nav-item" data-page="reminders">
+						<i class="fas fa-bell"></i>
+						<span>Lembretes</span>
+					</a>
+					<a href="#" class="nav-item" data-page="timer">
+						<i class="fas fa-clock"></i>
+						<span>Cronômetro</span>
+					</a>
+					<a href="#" class="nav-item" data-page="focus">
+						<i class="fas fa-bullseye"></i>
+						<span>Exercícios de Foco</span>
+					</a>
+					<a href="#" class="nav-item" data-page="techniques">
+						<i class="fas fa-brain"></i>
+						<span>Técnicas TDAH</span>
+					</a>
+				</nav>
+				<div class="user-section">
+					<div class="user-card">
+						<div class="user-avatar-small">
+							<i class="fas fa-user"></i>
+						</div>
+						<div class="user-details">
+							<p class="user-name">Maria Silva</p>
+							<p class="user-level">Nível: Focado 🎯</p>
+						</div>
+					</div>
+					<a href="/logout/" class="logout-btn">
+						<i class="fas fa-sign-out-alt"></i>
+						<span>Sair</span>
+					</a>
+				</div>
+			</aside>
+			<div id="overlay" class="overlay"></div>
+			<!-- Main Content -->
+			<main class="main-content">
+				<div class="content-container">
+					<div class="page active" id="tasks-page">
+						<div class="welcome-card">
+							<div style="display:flex;align-items:center;justify-content:space-between;">
+								<div style="display:flex;align-items:center;gap:1rem;">
+									<div class="welcome-icon">
+										<i class="fas fa-check-square"></i>
+									</div>
+									<div class="welcome-text">
+										<h3 style="margin-bottom:0;">Minhas Tarefas</h3>
+										<p style="margin:0;">Gerencie suas tarefas diárias de forma simples e eficiente.</p>
+									</div>
+								</div>
+								<button id="open-create-task" class="action-btn blue" style="padding:0.5rem 1rem;font-size:1rem;min-width:unset;box-shadow:none;">
+									<i class="fas fa-plus"></i> Nova
+								</button>
+							</div>
+							<!-- Modal de Nova Tarefa -->
+							<div id="modal-create-task" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:2000;align-items:center;justify-content:center;">
+								<div style="background:#fff;border-radius:1rem;box-shadow:0 8px 32px #0002;padding:2.5rem 2rem;max-width:420px;width:95vw;position:relative;">
+									<button id="close-create-task" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;color:#2563eb;cursor:pointer;"><i class="fas fa-times"></i></button>
+									<h3 style="margin-bottom:1.5rem;color:#2563eb;">Nova Tarefa</h3>
+									<form id="ajax-task-form" method="post" action="/create_task/">
+										{% csrf_token %}
+										<div style="display:flex;flex-direction:column;gap:1.2rem;">
+											<input type="text" name="title" class="form-input" placeholder="Título da tarefa" required style="width:100%;font-size:1.1rem;padding:1rem;border-radius:0.75rem;border:1.5px solid var(--blue-100);background:var(--white);color:var(--blue-700);outline:none;transition:border 0.2s;">
+											<textarea name="description" class="form-input" placeholder="Breve descrição" required rows="5" style="width:100%;min-height:90px;max-height:220px;resize:vertical;font-size:1.1rem;padding:1rem;border-radius:1rem;border:1.5px solid #fde68a;background:var(--white);color:var(--gold-600);outline:none;transition:border 0.2s;box-shadow:0 2px 8px #fbbf2433;"></textarea>
+											<input type="datetime-local" name="scheduled_time" class="form-input" required style="width:100%;font-size:1.1rem;padding:0.8rem;border-radius:0.75rem;border:1.5px solid var(--green-100);background:var(--white);color:var(--green-700);outline:none;transition:border 0.2s;">
+											<button type="submit" class="action-btn blue" style="padding:0.6rem 1.5rem;font-size:1.1rem;min-width:unset;border-radius:0.75rem;box-shadow:var(--shadow-lg);align-self:center;">
+												<i class="fas fa-check"></i> Concluído
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<!-- Lista de Tarefas -->
+							<div class="quick-actions" style="margin-top:2rem;">
+								<h4>Lista de Tarefas</h4>
+								<ul class="actions-grid" style="grid-template-columns:1fr;">
+									{% for task in tasks %}
+									<li class="stat-card blue" style="display:flex;flex-direction:column;align-items:flex-start;">
+										<div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
+											<div>
+												<strong>{{ task.title }}</strong>
+												<span style="font-size:0.9em;color:#374151;">({{ task.created_at|date:'d/m/Y H:i' }})</span>
+											</div>
+											<div>
+												<form method="post" action="/tasks/delete/{{ task.id }}/" style="display:inline;">{% csrf_token %}<button type="submit" class="action-btn gold" title="Excluir"><i class="fas fa-trash"></i></button></form>
+												<a href="/tasks/edit/{{ task.id }}/" class="action-btn green" title="Editar"><i class="fas fa-edit"></i></a>
+											</div>
+										</div>
+										<div style="margin:0.5em 0 0.5em 0;">{{ task.description }}</div>
+										<div style="font-size:0.95em;color:#2563eb;">Horário marcado: {{ task.scheduled_time|date:'d/m/Y H:i' }}</div>
+									</li>
+									{% empty %}
+									<li class="stat-card">Nenhuma tarefa cadastrada.</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	<script src="{% static 'mind/js/login-script.js' %}"></script>
+	<script>
+	// Abrir modal
+	document.addEventListener('DOMContentLoaded', function() {
+		var openBtn = document.getElementById('open-create-task');
+		var modal = document.getElementById('modal-create-task');
+		var closeBtn = document.getElementById('close-create-task');
+		if(openBtn && modal && closeBtn) {
+			openBtn.onclick = function() {
+				modal.style.display = 'flex';
+				openBtn.style.display = 'none';
+			};
+			closeBtn.onclick = function() {
+				modal.style.display = 'none';
+				openBtn.style.display = '';
+			};
+		}
+		// AJAX submit
+		var ajaxForm = document.getElementById('ajax-task-form');
+		if(ajaxForm) {
+			ajaxForm.onsubmit = function(e) {
+				e.preventDefault();
+				var formData = new FormData(ajaxForm);
+				fetch('/create_task/', {
+					method: 'POST',
+					headers: { 'X-Requested-With': 'XMLHttpRequest' },
+					body: formData
+				})
+				.then(response => response.ok ? response.json() : Promise.reject(response))
+				.then(data => {
+					if(data.success) {
+						window.location.reload();
+					} else {
+						alert('Erro ao criar tarefa!');
+					}
+				})
+				.catch(() => alert('Erro ao criar tarefa!'));
+			};
+		}
+	});
+	</script>
+</body>
+</html>
